@@ -57,3 +57,30 @@ while(i<tof->ent.nbb){
 }
 exit (1);
 }
+void insert_index(Custumer s, TOF *tof, Indexblock bloc, int position) {
+    // Implementation...
+int i = read_ibloc(tof,&bloc,position);
+if (i==-1){
+        bloc.nc =0;
+    bloc.d[bloc.ni]=s;
+       bloc.nc++;
+       write_ibloc(tof,bloc,position);
+        tof->ent.lid++;
+        tof->ent.nbb++;
+       write_entete(tof->ent,tof);
+
+}
+if(bloc.nc>=100){
+    write_cbloc(tof,bloc,position);
+    Indexblock a;a.ni=0;
+    a.d[0] = s;
+    write_cbloc(tof,a,position);
+        tof->ent.lid++;
+        tof->ent.nbb++;
+       write_entete(tof->ent,tof);
+}else{bloc.d[bloc.ni]=s;
+       bloc.ni++;
+       write_ibloc(tof,bloc,position);tof->ent.lid++;
+      write_entete(tof->ent,tof); }
+
+}
